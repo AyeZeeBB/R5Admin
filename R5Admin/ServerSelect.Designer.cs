@@ -31,13 +31,13 @@
             this.ServersPanel = new Guna.UI2.WinForms.Guna2Panel();
             this.AddNewServer = new Guna.UI2.WinForms.Guna2Button();
             this.AddServerPanel = new Guna.UI2.WinForms.Guna2Panel();
-            this.ServerNameTxt = new Guna.UI2.WinForms.Guna2TextBox();
-            this.ServerAddBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.ServerIPTxt = new Guna.UI2.WinForms.Guna2TextBox();
-            this.ServerPortTxt = new Guna.UI2.WinForms.Guna2TextBox();
-            this.ServerPasswordTxt = new Guna.UI2.WinForms.Guna2TextBox();
-            this.ServerCancelBtn = new Guna.UI2.WinForms.Guna2Button();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.ServerCancelBtn = new Guna.UI2.WinForms.Guna2Button();
+            this.ServerPasswordTxt = new Guna.UI2.WinForms.Guna2TextBox();
+            this.ServerPortTxt = new Guna.UI2.WinForms.Guna2TextBox();
+            this.ServerIPTxt = new Guna.UI2.WinForms.Guna2TextBox();
+            this.ServerAddBtn = new Guna.UI2.WinForms.Guna2Button();
+            this.ServerNameTxt = new Guna.UI2.WinForms.Guna2TextBox();
             this.ServersPanel.SuspendLayout();
             this.AddServerPanel.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +66,7 @@
             this.AddNewServer.ForeColor = System.Drawing.Color.White;
             this.AddNewServer.HoverState.Parent = this.AddNewServer;
             this.AddNewServer.Image = global::R5Admin.Properties.Resources.icons8_add_64;
+            this.AddNewServer.ImageOffset = new System.Drawing.Point(0, -15);
             this.AddNewServer.ImageSize = new System.Drawing.Size(40, 40);
             this.AddNewServer.Location = new System.Drawing.Point(33, 33);
             this.AddNewServer.Name = "AddNewServer";
@@ -91,104 +92,34 @@
             this.AddServerPanel.Size = new System.Drawing.Size(837, 430);
             this.AddServerPanel.TabIndex = 1;
             // 
-            // ServerNameTxt
+            // guna2HtmlLabel1
             // 
-            this.ServerNameTxt.Animated = true;
-            this.ServerNameTxt.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
-            this.ServerNameTxt.BorderRadius = 2;
-            this.ServerNameTxt.BorderThickness = 0;
-            this.ServerNameTxt.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.ServerNameTxt.DefaultText = "";
-            this.ServerNameTxt.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.ServerNameTxt.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.ServerNameTxt.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.ServerNameTxt.DisabledState.Parent = this.ServerNameTxt;
-            this.ServerNameTxt.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.ServerNameTxt.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
-            this.ServerNameTxt.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
-            this.ServerNameTxt.FocusedState.Parent = this.ServerNameTxt;
-            this.ServerNameTxt.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
-            this.ServerNameTxt.HoverState.Parent = this.ServerNameTxt;
-            this.ServerNameTxt.Location = new System.Drawing.Point(217, 147);
-            this.ServerNameTxt.Name = "ServerNameTxt";
-            this.ServerNameTxt.PasswordChar = '\0';
-            this.ServerNameTxt.PlaceholderText = "Server Name";
-            this.ServerNameTxt.SelectedText = "";
-            this.ServerNameTxt.ShadowDecoration.Parent = this.ServerNameTxt;
-            this.ServerNameTxt.Size = new System.Drawing.Size(398, 36);
-            this.ServerNameTxt.TabIndex = 0;
+            this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel1.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guna2HtmlLabel1.ForeColor = System.Drawing.Color.White;
+            this.guna2HtmlLabel1.Location = new System.Drawing.Point(360, 98);
+            this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(117, 26);
+            this.guna2HtmlLabel1.TabIndex = 9;
+            this.guna2HtmlLabel1.Text = "Add Server";
             // 
-            // ServerAddBtn
+            // ServerCancelBtn
             // 
-            this.ServerAddBtn.Animated = true;
-            this.ServerAddBtn.BorderRadius = 2;
-            this.ServerAddBtn.CheckedState.Parent = this.ServerAddBtn;
-            this.ServerAddBtn.CustomImages.Parent = this.ServerAddBtn;
-            this.ServerAddBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
-            this.ServerAddBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.ServerAddBtn.ForeColor = System.Drawing.Color.White;
-            this.ServerAddBtn.HoverState.Parent = this.ServerAddBtn;
-            this.ServerAddBtn.Location = new System.Drawing.Point(217, 273);
-            this.ServerAddBtn.Name = "ServerAddBtn";
-            this.ServerAddBtn.ShadowDecoration.Parent = this.ServerAddBtn;
-            this.ServerAddBtn.Size = new System.Drawing.Size(263, 45);
-            this.ServerAddBtn.TabIndex = 4;
-            this.ServerAddBtn.Text = "Add";
-            this.ServerAddBtn.Click += new System.EventHandler(this.ServerAddBtn_Click);
-            // 
-            // ServerIPTxt
-            // 
-            this.ServerIPTxt.Animated = true;
-            this.ServerIPTxt.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
-            this.ServerIPTxt.BorderRadius = 2;
-            this.ServerIPTxt.BorderThickness = 0;
-            this.ServerIPTxt.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.ServerIPTxt.DefaultText = "";
-            this.ServerIPTxt.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.ServerIPTxt.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.ServerIPTxt.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.ServerIPTxt.DisabledState.Parent = this.ServerIPTxt;
-            this.ServerIPTxt.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.ServerIPTxt.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
-            this.ServerIPTxt.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
-            this.ServerIPTxt.FocusedState.Parent = this.ServerIPTxt;
-            this.ServerIPTxt.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
-            this.ServerIPTxt.HoverState.Parent = this.ServerIPTxt;
-            this.ServerIPTxt.Location = new System.Drawing.Point(217, 189);
-            this.ServerIPTxt.Name = "ServerIPTxt";
-            this.ServerIPTxt.PasswordChar = '\0';
-            this.ServerIPTxt.PlaceholderText = "IP";
-            this.ServerIPTxt.SelectedText = "";
-            this.ServerIPTxt.ShadowDecoration.Parent = this.ServerIPTxt;
-            this.ServerIPTxt.Size = new System.Drawing.Size(263, 36);
-            this.ServerIPTxt.TabIndex = 5;
-            // 
-            // ServerPortTxt
-            // 
-            this.ServerPortTxt.Animated = true;
-            this.ServerPortTxt.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
-            this.ServerPortTxt.BorderRadius = 2;
-            this.ServerPortTxt.BorderThickness = 0;
-            this.ServerPortTxt.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.ServerPortTxt.DefaultText = "";
-            this.ServerPortTxt.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.ServerPortTxt.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.ServerPortTxt.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.ServerPortTxt.DisabledState.Parent = this.ServerPortTxt;
-            this.ServerPortTxt.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.ServerPortTxt.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
-            this.ServerPortTxt.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
-            this.ServerPortTxt.FocusedState.Parent = this.ServerPortTxt;
-            this.ServerPortTxt.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
-            this.ServerPortTxt.HoverState.Parent = this.ServerPortTxt;
-            this.ServerPortTxt.Location = new System.Drawing.Point(486, 189);
-            this.ServerPortTxt.Name = "ServerPortTxt";
-            this.ServerPortTxt.PasswordChar = '\0';
-            this.ServerPortTxt.PlaceholderText = "Port";
-            this.ServerPortTxt.SelectedText = "";
-            this.ServerPortTxt.ShadowDecoration.Parent = this.ServerPortTxt;
-            this.ServerPortTxt.Size = new System.Drawing.Size(129, 36);
-            this.ServerPortTxt.TabIndex = 6;
+            this.ServerCancelBtn.Animated = true;
+            this.ServerCancelBtn.BorderRadius = 2;
+            this.ServerCancelBtn.CheckedState.Parent = this.ServerCancelBtn;
+            this.ServerCancelBtn.CustomImages.Parent = this.ServerCancelBtn;
+            this.ServerCancelBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
+            this.ServerCancelBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.ServerCancelBtn.ForeColor = System.Drawing.Color.White;
+            this.ServerCancelBtn.HoverState.Parent = this.ServerCancelBtn;
+            this.ServerCancelBtn.Location = new System.Drawing.Point(486, 273);
+            this.ServerCancelBtn.Name = "ServerCancelBtn";
+            this.ServerCancelBtn.ShadowDecoration.Parent = this.ServerCancelBtn;
+            this.ServerCancelBtn.Size = new System.Drawing.Size(129, 45);
+            this.ServerCancelBtn.TabIndex = 8;
+            this.ServerCancelBtn.Text = "Cancel";
+            this.ServerCancelBtn.Click += new System.EventHandler(this.ServerCancelBtn_Click);
             // 
             // ServerPasswordTxt
             // 
@@ -217,34 +148,104 @@
             this.ServerPasswordTxt.Size = new System.Drawing.Size(398, 36);
             this.ServerPasswordTxt.TabIndex = 7;
             // 
-            // ServerCancelBtn
+            // ServerPortTxt
             // 
-            this.ServerCancelBtn.Animated = true;
-            this.ServerCancelBtn.BorderRadius = 2;
-            this.ServerCancelBtn.CheckedState.Parent = this.ServerCancelBtn;
-            this.ServerCancelBtn.CustomImages.Parent = this.ServerCancelBtn;
-            this.ServerCancelBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
-            this.ServerCancelBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.ServerCancelBtn.ForeColor = System.Drawing.Color.White;
-            this.ServerCancelBtn.HoverState.Parent = this.ServerCancelBtn;
-            this.ServerCancelBtn.Location = new System.Drawing.Point(486, 273);
-            this.ServerCancelBtn.Name = "ServerCancelBtn";
-            this.ServerCancelBtn.ShadowDecoration.Parent = this.ServerCancelBtn;
-            this.ServerCancelBtn.Size = new System.Drawing.Size(129, 45);
-            this.ServerCancelBtn.TabIndex = 8;
-            this.ServerCancelBtn.Text = "Cancel";
-            this.ServerCancelBtn.Click += new System.EventHandler(this.ServerCancelBtn_Click);
+            this.ServerPortTxt.Animated = true;
+            this.ServerPortTxt.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
+            this.ServerPortTxt.BorderRadius = 2;
+            this.ServerPortTxt.BorderThickness = 0;
+            this.ServerPortTxt.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ServerPortTxt.DefaultText = "";
+            this.ServerPortTxt.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.ServerPortTxt.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.ServerPortTxt.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.ServerPortTxt.DisabledState.Parent = this.ServerPortTxt;
+            this.ServerPortTxt.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.ServerPortTxt.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
+            this.ServerPortTxt.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
+            this.ServerPortTxt.FocusedState.Parent = this.ServerPortTxt;
+            this.ServerPortTxt.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
+            this.ServerPortTxt.HoverState.Parent = this.ServerPortTxt;
+            this.ServerPortTxt.Location = new System.Drawing.Point(486, 189);
+            this.ServerPortTxt.Name = "ServerPortTxt";
+            this.ServerPortTxt.PasswordChar = '\0';
+            this.ServerPortTxt.PlaceholderText = "Port";
+            this.ServerPortTxt.SelectedText = "";
+            this.ServerPortTxt.ShadowDecoration.Parent = this.ServerPortTxt;
+            this.ServerPortTxt.Size = new System.Drawing.Size(129, 36);
+            this.ServerPortTxt.TabIndex = 6;
             // 
-            // guna2HtmlLabel1
+            // ServerIPTxt
             // 
-            this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel1.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2HtmlLabel1.ForeColor = System.Drawing.Color.White;
-            this.guna2HtmlLabel1.Location = new System.Drawing.Point(360, 98);
-            this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            this.guna2HtmlLabel1.Size = new System.Drawing.Size(117, 26);
-            this.guna2HtmlLabel1.TabIndex = 9;
-            this.guna2HtmlLabel1.Text = "Add Server";
+            this.ServerIPTxt.Animated = true;
+            this.ServerIPTxt.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
+            this.ServerIPTxt.BorderRadius = 2;
+            this.ServerIPTxt.BorderThickness = 0;
+            this.ServerIPTxt.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ServerIPTxt.DefaultText = "";
+            this.ServerIPTxt.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.ServerIPTxt.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.ServerIPTxt.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.ServerIPTxt.DisabledState.Parent = this.ServerIPTxt;
+            this.ServerIPTxt.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.ServerIPTxt.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
+            this.ServerIPTxt.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
+            this.ServerIPTxt.FocusedState.Parent = this.ServerIPTxt;
+            this.ServerIPTxt.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
+            this.ServerIPTxt.HoverState.Parent = this.ServerIPTxt;
+            this.ServerIPTxt.Location = new System.Drawing.Point(217, 189);
+            this.ServerIPTxt.Name = "ServerIPTxt";
+            this.ServerIPTxt.PasswordChar = '\0';
+            this.ServerIPTxt.PlaceholderText = "IP";
+            this.ServerIPTxt.SelectedText = "";
+            this.ServerIPTxt.ShadowDecoration.Parent = this.ServerIPTxt;
+            this.ServerIPTxt.Size = new System.Drawing.Size(263, 36);
+            this.ServerIPTxt.TabIndex = 5;
+            // 
+            // ServerAddBtn
+            // 
+            this.ServerAddBtn.Animated = true;
+            this.ServerAddBtn.BorderRadius = 2;
+            this.ServerAddBtn.CheckedState.Parent = this.ServerAddBtn;
+            this.ServerAddBtn.CustomImages.Parent = this.ServerAddBtn;
+            this.ServerAddBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
+            this.ServerAddBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.ServerAddBtn.ForeColor = System.Drawing.Color.White;
+            this.ServerAddBtn.HoverState.Parent = this.ServerAddBtn;
+            this.ServerAddBtn.Location = new System.Drawing.Point(217, 273);
+            this.ServerAddBtn.Name = "ServerAddBtn";
+            this.ServerAddBtn.ShadowDecoration.Parent = this.ServerAddBtn;
+            this.ServerAddBtn.Size = new System.Drawing.Size(263, 45);
+            this.ServerAddBtn.TabIndex = 4;
+            this.ServerAddBtn.Text = "Add";
+            this.ServerAddBtn.Click += new System.EventHandler(this.ServerAddBtn_Click);
+            // 
+            // ServerNameTxt
+            // 
+            this.ServerNameTxt.Animated = true;
+            this.ServerNameTxt.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
+            this.ServerNameTxt.BorderRadius = 2;
+            this.ServerNameTxt.BorderThickness = 0;
+            this.ServerNameTxt.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ServerNameTxt.DefaultText = "";
+            this.ServerNameTxt.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.ServerNameTxt.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.ServerNameTxt.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.ServerNameTxt.DisabledState.Parent = this.ServerNameTxt;
+            this.ServerNameTxt.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.ServerNameTxt.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
+            this.ServerNameTxt.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
+            this.ServerNameTxt.FocusedState.Parent = this.ServerNameTxt;
+            this.ServerNameTxt.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
+            this.ServerNameTxt.HoverState.Parent = this.ServerNameTxt;
+            this.ServerNameTxt.Location = new System.Drawing.Point(217, 147);
+            this.ServerNameTxt.Name = "ServerNameTxt";
+            this.ServerNameTxt.PasswordChar = '\0';
+            this.ServerNameTxt.PlaceholderText = "Server Name";
+            this.ServerNameTxt.SelectedText = "";
+            this.ServerNameTxt.ShadowDecoration.Parent = this.ServerNameTxt;
+            this.ServerNameTxt.Size = new System.Drawing.Size(398, 36);
+            this.ServerNameTxt.TabIndex = 0;
             // 
             // ServerSelect
             // 

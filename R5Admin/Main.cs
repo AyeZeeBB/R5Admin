@@ -130,8 +130,11 @@ namespace R5Admin
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            rcon.Disconnect();
-            rconthread.Abort();
+            if(rcon != null)
+                rcon.Disconnect();
+
+            if(rconthread != null)
+                rconthread.Abort();
         }
     }
     public static class RichTextBoxExtensions

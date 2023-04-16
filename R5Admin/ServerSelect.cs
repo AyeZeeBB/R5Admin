@@ -144,6 +144,7 @@ namespace R5Admin
                 add.Animated = true;
                 add.FillColor = Color.FromArgb(27, 28, 48);
                 add.TextAlign = HorizontalAlignment.Right;
+                add.ImageOffset = new Point(0, -15);
                 add.Click += (s, e) => {
                     AddServerPanel.BringToFront();
                     AddServerPanel.Show();
@@ -166,6 +167,7 @@ namespace R5Admin
                 add.Animated = true;
                 add.FillColor = Color.FromArgb(27, 28, 48);
                 add.TextAlign = HorizontalAlignment.Right;
+                add.ImageOffset = new Point(0, -15);
                 add.Click += (s, e) => {
                     AddServerPanel.BringToFront();
                     AddServerPanel.Show();
