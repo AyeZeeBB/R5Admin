@@ -142,7 +142,7 @@
             this.ServerPasswordTxt.Location = new System.Drawing.Point(217, 231);
             this.ServerPasswordTxt.Name = "ServerPasswordTxt";
             this.ServerPasswordTxt.PasswordChar = '\0';
-            this.ServerPasswordTxt.PlaceholderText = "Password";
+            this.ServerPasswordTxt.PlaceholderText = "Password (optional)";
             this.ServerPasswordTxt.SelectedText = "";
             this.ServerPasswordTxt.ShadowDecoration.Parent = this.ServerPasswordTxt;
             this.ServerPasswordTxt.Size = new System.Drawing.Size(398, 36);
@@ -169,11 +169,12 @@
             this.ServerPortTxt.Location = new System.Drawing.Point(486, 189);
             this.ServerPortTxt.Name = "ServerPortTxt";
             this.ServerPortTxt.PasswordChar = '\0';
-            this.ServerPortTxt.PlaceholderText = "Port";
+            this.ServerPortTxt.PlaceholderText = "Port (required)";
             this.ServerPortTxt.SelectedText = "";
             this.ServerPortTxt.ShadowDecoration.Parent = this.ServerPortTxt;
             this.ServerPortTxt.Size = new System.Drawing.Size(129, 36);
             this.ServerPortTxt.TabIndex = 6;
+            this.ServerPortTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ServerPortTxt_KeyPress);
             // 
             // ServerIPTxt
             // 
@@ -196,11 +197,12 @@
             this.ServerIPTxt.Location = new System.Drawing.Point(217, 189);
             this.ServerIPTxt.Name = "ServerIPTxt";
             this.ServerIPTxt.PasswordChar = '\0';
-            this.ServerIPTxt.PlaceholderText = "IP";
+            this.ServerIPTxt.PlaceholderText = "IP (required)";
             this.ServerIPTxt.SelectedText = "";
             this.ServerIPTxt.ShadowDecoration.Parent = this.ServerIPTxt;
             this.ServerIPTxt.Size = new System.Drawing.Size(263, 36);
             this.ServerIPTxt.TabIndex = 5;
+            this.ServerIPTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ServerIPTxt_KeyPress);
             // 
             // ServerAddBtn
             // 
@@ -241,7 +243,7 @@
             this.ServerNameTxt.Location = new System.Drawing.Point(217, 147);
             this.ServerNameTxt.Name = "ServerNameTxt";
             this.ServerNameTxt.PasswordChar = '\0';
-            this.ServerNameTxt.PlaceholderText = "Server Name";
+            this.ServerNameTxt.PlaceholderText = "Server Name (required)";
             this.ServerNameTxt.SelectedText = "";
             this.ServerNameTxt.ShadowDecoration.Parent = this.ServerNameTxt;
             this.ServerNameTxt.Size = new System.Drawing.Size(398, 36);

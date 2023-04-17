@@ -8,12 +8,14 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace R5Admin
 {
     public class R5Rcon 
     {
         public CConnectedNetConsoleData pData = new CConnectedNetConsoleData();
+        public bool m_bConnected = false;
 
         public void SetConsoleControl(Main form)
         {
@@ -22,7 +24,7 @@ namespace R5Admin
 
         public void Runframe()
         {
-            while (true)
+            while (m_bConnected)
             {
                 if (pData.m_hSocket != null && pData.m_hSocket.Connected)
                 {
@@ -59,22 +61,22 @@ namespace R5Admin
             }
             else if (string.IsNullOrEmpty(svInPort))
             {
-                pData.m_hForm.AppendConsole($"No port provided", Main.ConsoleMessageType.Error);
+                pData.m_hForm.UpdateConsole($"No port provided", Main.ConsoleMessageType.Error);
                 return false;
             }
             else
             {
-                pData.m_hForm.AppendConsole($"No IP address provided", Main.ConsoleMessageType.Error);
+                pData.m_hForm.UpdateConsole($"No IP address provided", Main.ConsoleMessageType.Error);
                 return false;
             }
 
             if (!pData.m_hSocket.Connected)
             {
-                pData.m_hForm.AppendConsole($"Failed to connect: verify IP and PORT", Main.ConsoleMessageType.Error);
+                pData.m_hForm.UpdateConsole($"Failed to connect: verify IP and PORT", Main.ConsoleMessageType.Error);
                 return false;
             }
 
-            pData.m_hForm.AppendConsole($"Connected to: {svFull}", Main.ConsoleMessageType.Success);
+            pData.m_hForm.UpdateConsole($"Connected to: {svFull}", Main.ConsoleMessageType.Success);
             return true;
         }
 
@@ -83,7 +85,7 @@ namespace R5Admin
             if(pData.m_hSocket != null && pData.m_hSocket.Connected)
             {
                 pData.m_hSocket.Disconnect(false);
-                pData.m_hForm.AppendConsole("Disconnected", Main.ConsoleMessageType.Warn);
+                pData.m_hForm.UpdateConsole("Disconnected", Main.ConsoleMessageType.Warn);
             }
         }
 
@@ -107,7 +109,7 @@ namespace R5Admin
                 int bytesSent = pData.m_hSocket.Send(stream.ToArray(), 0, (int)stream.Length, SocketFlags.None, out error);
 
                 if (error != SocketError.Success)
-                    pData.m_hForm.AppendConsole($"Failed to send message {error}", Main.ConsoleMessageType.Error);
+                    pData.m_hForm.UpdateConsole($"Failed to send message {error}", Main.ConsoleMessageType.Error);
             }
         }
 
@@ -125,7 +127,7 @@ namespace R5Admin
                 if (nPendingLen <= 0 && pData.m_hSocket.Connected) // EOF or error.
                 {
                     pData.m_hSocket.Disconnect(false);
-                    pData.m_hForm.AppendConsole($"Server closed connection", Main.ConsoleMessageType.Warn);
+                    pData.m_hForm.UpdateConsole($"Server closed connection", Main.ConsoleMessageType.Warn);
                     return;
                 }
             }
@@ -138,12 +140,12 @@ namespace R5Admin
                 if (nRecvLen == 0 && pData.m_hSocket.Connected) // Socket was closed.
                 {
                     Disconnect();
-                    pData.m_hForm.AppendConsole($"Server closed connection", Main.ConsoleMessageType.Warn);
+                    pData.m_hForm.UpdateConsole($"Server closed connection", Main.ConsoleMessageType.Warn);
                     break;
                 }
                 if (nRecvLen < 0 && !pData.m_hSocket.Blocking)
                 {
-                    pData.m_hForm.AppendConsole($"RCON Cmd: recv error", Main.ConsoleMessageType.Error);
+                    pData.m_hForm.UpdateConsole($"RCON Cmd: recv error", Main.ConsoleMessageType.Error);
                     break;
                 }
 
@@ -188,7 +190,7 @@ namespace R5Admin
 
                     if (pData.m_nPayloadLen < 0 || pData.m_nPayloadLen > pData.m_RecvBuffer.Max())
                     {
-                        pData.m_hForm.AppendConsole($"RCON Cmd: sync error ({pData.m_nPayloadLen})", Main.ConsoleMessageType.Error);
+                        pData.m_hForm.UpdateConsole($"RCON Cmd: sync error ({pData.m_nPayloadLen})", Main.ConsoleMessageType.Error);
                         Disconnect();
                         break;
                     }
@@ -216,12 +218,24 @@ namespace R5Admin
                             }
                         }
 
-                        pData.m_hForm.UpdateConsole(sv_response, Main.ConsoleMessageType.Success);
+                        if (sv_response.ResponseMsg.Contains("Admin password incorrect"))
+                        {
+                            pData.m_hForm.UpdateConsole(sv_response, Main.ConsoleMessageType.Error);
+                            pData.m_hForm.UpdateConsole("please use 'pass <password>' to authenticate", Main.ConsoleMessageType.Warn);
+                        }
+                        else if (sv_response.ResponseMsg.Contains("This server is password protected for console access"))
+                        {
+                            pData.m_hForm.UpdateConsole("This server is password protected for console access", Main.ConsoleMessageType.Warn);
+                            pData.m_hForm.UpdateConsole("please use 'pass <password>' to authenticate", Main.ConsoleMessageType.Warn);
+                        }
+                        else
+                            pData.m_hForm.UpdateConsole(sv_response, Main.ConsoleMessageType.Success);
+
                         break;
                     }
                 case SvRcon.response_t.ServerdataResponseConsoleLog:
                     {
-                        pData.m_hForm.UpdateConsole(sv_response, Main.ConsoleMessageType.Normal);
+                        pData.m_hForm.UpdateConsole(sv_response, GetCorrectConsoleType(sv_response.ResponseMsg));
                         break;
                     }
                 default:
@@ -265,11 +279,25 @@ namespace R5Admin
             {
                 sv_response.MergeFrom(System.Text.Encoding.ASCII.GetBytes(svBuf));
             }
-            catch (Exception ex)
+            catch
             {
 
             }
             return sv_response;
+        }
+
+        public Main.ConsoleMessageType GetCorrectConsoleType(string msg)
+        {
+            if(msg.Contains("Loading pak"))
+                return Main.ConsoleMessageType.NativeR;
+
+            if (msg.Contains("Created SERVER VM") || msg.Contains("Published server with token") || msg.Contains("Processing connectionless challenge") || msg.Contains("Enabled persistence for client") || msg.Contains("Unable to communicate") || msg.Contains("hostname: ") || msg.Contains("version : ") || msg.Contains("udp/ip  : ") || msg.Contains("players : "))
+                return Main.ConsoleMessageType.NativeS;
+
+            if (msg.Contains("Mounted vpk file"))
+                return Main.ConsoleMessageType.NativeF;
+
+            return Main.ConsoleMessageType.Normal;
         }
 
         public IPEndPoint GetEndPoint(string svInAdr, string svInPort)

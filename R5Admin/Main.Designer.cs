@@ -36,6 +36,7 @@
             this.Min = new Guna.UI2.WinForms.Guna2ControlBox();
             this.Exit = new Guna.UI2.WinForms.Guna2ControlBox();
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
+            this.guna2DragControl2 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.r5Console1 = new R5Admin.R5Console();
             this.serverSelect1 = new R5Admin.ServerSelect();
             this.TopPanel.SuspendLayout();
@@ -60,13 +61,14 @@
             // 
             // TopText
             // 
+            this.TopText.AutoSize = false;
             this.TopText.BackColor = System.Drawing.Color.Transparent;
             this.TopText.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.TopText.ForeColor = System.Drawing.Color.White;
             this.TopText.IsSelectionEnabled = false;
             this.TopText.Location = new System.Drawing.Point(5, 4);
             this.TopText.Name = "TopText";
-            this.TopText.Size = new System.Drawing.Size(73, 21);
+            this.TopText.Size = new System.Drawing.Size(771, 21);
             this.TopText.TabIndex = 3;
             this.TopText.Text = "R5Admin";
             // 
@@ -96,10 +98,15 @@
             this.Exit.ShadowDecoration.Parent = this.Exit;
             this.Exit.Size = new System.Drawing.Size(29, 29);
             this.Exit.TabIndex = 1;
+            this.Exit.Click += new System.EventHandler(this.Exit_Click);
             // 
             // guna2DragControl1
             // 
             this.guna2DragControl1.TargetControl = this.TopPanel;
+            // 
+            // guna2DragControl2
+            // 
+            this.guna2DragControl2.TargetControl = this.TopText;
             // 
             // r5Console1
             // 
@@ -134,7 +141,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.TopPanel.ResumeLayout(false);
-            this.TopPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -149,5 +155,6 @@
         private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
         private Guna.UI2.WinForms.Guna2HtmlLabel TopText;
         private R5Console r5Console1;
+        private Guna.UI2.WinForms.Guna2DragControl guna2DragControl2;
     }
 }

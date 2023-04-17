@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace R5Admin
 {
@@ -45,32 +46,19 @@ namespace R5Admin
             MapCombo.SelectedIndex = 0;
         }
 
-        private void ExecCommand(string cmd)
-        {
-            string[] svSplitString = cmd.Split(' ');
-            if (svSplitString[0].ToLower() == "pass")
-            {
-                r5admin.rcon.SendCommand(svSplitString[1], "", ClRcon.request_t.ServerdataRequestAuth);
-            }
-            else
-            {
-                r5admin.rcon.SendCommand(cmd, "", ClRcon.request_t.ServerdataRequestExeccommand);
-            }
-        }
-
         private void ChangeMap_Click(object sender, EventArgs e)
         {
-            ExecCommand("map " + MapCombo.SelectedItem.ToString());
+            r5admin.ExecCommand("map " + MapCombo.SelectedItem.ToString());
         }
 
         private void LaunchPlaylist_Click(object sender, EventArgs e)
         {
-            ExecCommand("launchplaylist " + PlaylistCombo.SelectedItem.ToString());
+            r5admin.ExecCommand("launchplaylist " + PlaylistCombo.SelectedItem.ToString());
         }
 
         private void SendCommand_Click(object sender, EventArgs e)
         {
-            ExecCommand(CommandTxt.Text);
+            r5admin.ExecCommand(CommandTxt.Text);
             CommandTxt.Text = "";
         }
 
@@ -78,8 +66,10 @@ namespace R5Admin
         {
             if (e.KeyCode == Keys.Enter)
             {
-                ExecCommand(CommandTxt.Text);
+                r5admin.ExecCommand(CommandTxt.Text);
                 CommandTxt.Text = "";
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -94,6 +84,32 @@ namespace R5Admin
             ConsoleBox.SelectionStart = ConsoleBox.Text.Length;
             // scroll it automatically
             ConsoleBox.ScrollToCaret();
+        }
+
+        private void SetPylonVis_Click(object sender, EventArgs e)
+        {
+            r5admin.ExecCommand("sv_pylonvisibility " + PlaylistCombo.SelectedIndex);
+        }
+
+        private void svcheats_CheckedChanged(object sender, EventArgs e)
+        {
+            int onoff = svcheats.Checked ? 1 : 0;
+            r5admin.ExecCommand("sv_cheats " + onoff);
+        }
+
+        private void checkstatus_Click(object sender, EventArgs e)
+        {
+            r5admin.ExecCommand("status");
+        }
+
+        private void reloadplaylist_Click(object sender, EventArgs e)
+        {
+            r5admin.ExecCommand("reloadplaylist");
+        }
+
+        private void ConsoleBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 

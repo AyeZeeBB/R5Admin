@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,7 +27,7 @@ namespace R5Admin
             AddServerPanel.Hide();
         }
 
-        string jsonPath = Path.GetDirectoryName(Application.ExecutablePath) + "/data/R5AdminServers.json";
+        readonly string jsonPath = Path.GetDirectoryName(Application.ExecutablePath) + "/data/R5AdminServers.json";
         public Main r5admin;
         public Root Servers = new Root();
 
@@ -47,76 +48,90 @@ namespace R5Admin
                 Point location = new Point(33, 33);
                 foreach(Server srv in R5RconServers.Servers)
                 {
-                    Guna2Panel p = new Guna2Panel();
-                    p.Parent = ServersPanel;
-                    p.Size = new Size(150, 150);
-                    p.Location = location;
-                    p.BorderRadius = 2;
-                    p.BorderThickness = 2;
-                    p.BorderColor = Color.FromArgb(42, 47, 65);
+                    Guna2Panel p = new Guna2Panel
+                    {
+                        Parent = ServersPanel,
+                        Size = new Size(150, 150),
+                        Location = location,
+                        BorderRadius = 2,
+                        BorderThickness = 2,
+                        BorderColor = Color.FromArgb(42, 47, 65)
+                    };
 
-                    Guna2Button connect = new Guna2Button();
-                    connect.Parent = p;
-                    connect.Size = new Size(121, 30);
-                    connect.Location = new Point(0, 120);
-                    connect.BorderRadius = 2;
-                    connect.Text = "Connect";
-                    connect.Animated = true;
-                    connect.FillColor = Color.FromArgb(78, 92, 126);
-                    connect.Font = new Font("Arial", 8);
+                    Guna2Button connect = new Guna2Button
+                    {
+                        Parent = p,
+                        Size = new Size(121, 30),
+                        Location = new Point(0, 120),
+                        BorderRadius = 2,
+                        Text = "Connect",
+                        Animated = true,
+                        FillColor = Color.FromArgb(78, 92, 126),
+                        Font = new Font("Arial", 8)
+                    };
                     connect.Click += (s, e) => {
                         r5admin.ConnectToServer(srv.name, srv.ip, srv.port, srv.pass);
                     };
 
-                    Guna2Button delete = new Guna2Button();
-                    delete.Parent = p;
-                    delete.Size = new Size(30, 30);
-                    delete.Location = new Point(120, 120);
-                    delete.BorderRadius = 2;
-                    delete.Text = "";
-                    delete.Animated = true;
-                    delete.FillColor = Color.FromArgb(255, 128, 128);
-                    delete.Image = Resources.icons8_empty_trash_64;
-                    delete.ImageSize = new Size(20, 20);
+                    Guna2Button delete = new Guna2Button
+                    {
+                        Parent = p,
+                        Size = new Size(30, 30),
+                        Location = new Point(120, 120),
+                        BorderRadius = 2,
+                        Text = "",
+                        Animated = true,
+                        FillColor = Color.FromArgb(255, 128, 128),
+                        Image = Resources.icons8_empty_trash_64,
+                        ImageSize = new Size(20, 20)
+                    };
                     delete.Click += (s, e) => {
                         DeleteServer(srv);
                     };
 
-                    Guna2HtmlLabel name = new Guna2HtmlLabel();
-                    name.Parent = p;
-                    name.Font = new Font("Arial", 8);
-                    name.ForeColor = Color.White;
-                    name.Location = new Point(3, 3);
-                    name.IsSelectionEnabled = false;
-                    name.Text = "Server Name:";
+                    Guna2HtmlLabel name = new Guna2HtmlLabel
+                    {
+                        Parent = p,
+                        Font = new Font("Arial", 8),
+                        ForeColor = Color.White,
+                        Location = new Point(3, 3),
+                        IsSelectionEnabled = false,
+                        Text = "Server Name:"
+                    };
 
-                    Guna2HtmlLabel address = new Guna2HtmlLabel();
-                    address.Parent = p;
-                    address.Font = new Font("Arial", 8);
-                    address.ForeColor = Color.White;
-                    address.Location = new Point(3, 62);
-                    address.IsSelectionEnabled = false;
-                    address.Text = "Server Address:";
+                    Guna2HtmlLabel address = new Guna2HtmlLabel
+                    {
+                        Parent = p,
+                        Font = new Font("Arial", 8),
+                        ForeColor = Color.White,
+                        Location = new Point(3, 62),
+                        IsSelectionEnabled = false,
+                        Text = "Server Address:"
+                    };
 
-                    Guna2HtmlLabel svName = new Guna2HtmlLabel();
-                    svName.Parent = p;
-                    svName.AutoSize = false;
-                    svName.Font = new Font("Arial", 8);
-                    svName.ForeColor = Color.White;
-                    svName.Location = new Point(3, 19);
-                    svName.Size = new Size(144, 31);
-                    svName.IsSelectionEnabled = false;
-                    svName.Text = srv.name;
+                    Guna2HtmlLabel svName = new Guna2HtmlLabel
+                    {
+                        Parent = p,
+                        AutoSize = false,
+                        Font = new Font("Arial", 8),
+                        ForeColor = Color.White,
+                        Location = new Point(3, 19),
+                        Size = new Size(144, 31),
+                        IsSelectionEnabled = false,
+                        Text = srv.name
+                    };
 
-                    Guna2HtmlLabel svAddress= new Guna2HtmlLabel();
-                    svAddress.Parent = p;
-                    svAddress.AutoSize = false;
-                    svAddress.Font = new Font("Arial", 8);
-                    svAddress.ForeColor = Color.White;
-                    svAddress.Location = new Point(3, 78);
-                    svAddress.Size = new Size(144, 31);
-                    svAddress.IsSelectionEnabled = false;
-                    svAddress.Text = $"{srv.ip}:{srv.port}";
+                    Guna2HtmlLabel svAddress = new Guna2HtmlLabel
+                    {
+                        Parent = p,
+                        AutoSize = false,
+                        Font = new Font("Arial", 8),
+                        ForeColor = Color.White,
+                        Location = new Point(3, 78),
+                        Size = new Size(144, 31),
+                        IsSelectionEnabled = false,
+                        Text = $"{srv.ip}:{srv.port}"
+                    };
 
                     idx++;
                     serverid++;
@@ -129,22 +144,24 @@ namespace R5Admin
                     }
                 }
 
-                Guna2Button add = new Guna2Button();
-                add.Parent = ServersPanel;
-                add.Size = new Size(150, 150);
-                add.Location = location;
-                add.BorderRadius = 2;
-                add.BorderThickness = 2;
-                add.BorderColor = Color.FromArgb(42, 47, 65);
-                add.Text = "Add Server";
-                add.Image = Resources.icons8_add_64;
-                add.ImageSize = new Size(40, 40);
-                add.TextOffset = new Point(-30, 30);
-                add.Font = new Font("Arial", 9);
-                add.Animated = true;
-                add.FillColor = Color.FromArgb(27, 28, 48);
-                add.TextAlign = HorizontalAlignment.Right;
-                add.ImageOffset = new Point(0, -15);
+                Guna2Button add = new Guna2Button
+                {
+                    Parent = ServersPanel,
+                    Size = new Size(150, 150),
+                    Location = location,
+                    BorderRadius = 2,
+                    BorderThickness = 2,
+                    BorderColor = Color.FromArgb(42, 47, 65),
+                    Text = "Add Server",
+                    Image = Resources.icons8_add_64,
+                    ImageSize = new Size(40, 40),
+                    TextOffset = new Point(-30, 30),
+                    Font = new Font("Arial", 9),
+                    Animated = true,
+                    FillColor = Color.FromArgb(27, 28, 48),
+                    TextAlign = HorizontalAlignment.Right,
+                    ImageOffset = new Point(0, -15)
+                };
                 add.Click += (s, e) => {
                     AddServerPanel.BringToFront();
                     AddServerPanel.Show();
@@ -152,22 +169,24 @@ namespace R5Admin
             }
             else
             {
-                Guna2Button add = new Guna2Button();
-                add.Parent = ServersPanel;
-                add.Size = new Size(150, 150);
-                add.Location = new Point(33, 33);
-                add.BorderRadius = 2;
-                add.BorderThickness = 2;
-                add.BorderColor = Color.FromArgb(42, 47, 65);
-                add.Text = "Add Server";
-                add.Image = Resources.icons8_add_64;
-                add.ImageSize = new Size(40, 40);
-                add.TextOffset = new Point(-30, 30);
-                add.Font = new Font("Arial", 9);
-                add.Animated = true;
-                add.FillColor = Color.FromArgb(27, 28, 48);
-                add.TextAlign = HorizontalAlignment.Right;
-                add.ImageOffset = new Point(0, -15);
+                Guna2Button add = new Guna2Button
+                {
+                    Parent = ServersPanel,
+                    Size = new Size(150, 150),
+                    Location = new Point(33, 33),
+                    BorderRadius = 2,
+                    BorderThickness = 2,
+                    BorderColor = Color.FromArgb(42, 47, 65),
+                    Text = "Add Server",
+                    Image = Resources.icons8_add_64,
+                    ImageSize = new Size(40, 40),
+                    TextOffset = new Point(-30, 30),
+                    Font = new Font("Arial", 9),
+                    Animated = true,
+                    FillColor = Color.FromArgb(27, 28, 48),
+                    TextAlign = HorizontalAlignment.Right,
+                    ImageOffset = new Point(0, -15)
+                };
                 add.Click += (s, e) => {
                     AddServerPanel.BringToFront();
                     AddServerPanel.Show();
@@ -177,11 +196,13 @@ namespace R5Admin
 
         private void AddServer(string name, string ip, string port, string pass)
         {
-            Server srv = new Server();
-            srv.name = name;
-            srv.ip = ip;
-            srv.port = port;
-            srv.pass = pass;
+            Server srv = new Server
+            {
+                name = name,
+                ip = ip,
+                port = port,
+                pass = pass
+            };
 
             Servers.Servers.Add(srv);
 
@@ -201,6 +222,34 @@ namespace R5Admin
             FillRconList();
         }
 
+        private bool IsValidIP(string ip)
+        {
+            try
+            {
+                IPAddress IP;
+                if (ip.Count(c => c == '.') == 3)
+                {
+                    bool flag = IPAddress.TryParse(ip, out IP);
+                    if (flag)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private void ServerAddBtn_Click(object sender, EventArgs e)
         {
             if(string.IsNullOrEmpty(ServerNameTxt.Text))
@@ -215,20 +264,32 @@ namespace R5Admin
                 return;
             }
 
+            if(!IsValidIP(ServerIPTxt.Text))
+            {
+                MessageBox.Show($"{ServerIPTxt.Text} is not a valid IP address");
+                return;
+            }
+
             try
             {
                 R5Rcon rcon = new R5Rcon();
                 bool connected = rcon.TestServerConnection(ServerIPTxt.Text, ServerPortTxt.Text);
                 if (!connected)
                 {
-                    MessageBox.Show("Failed to connect: verify IP and PORT");
-                    return;
+                    DialogResult dialogResult = MessageBox.Show("Failed to connect during connection test.\n\nDo you want to add this server anyways?", "Connection Error", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
                 }
             } 
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Failed to connect: verify IP and PORT");
-                return;
+                DialogResult dialogResult = MessageBox.Show("Failed to connect during connection test.\n\nDo you want to add this server anyways?", "Connection Error", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.No)
+                {
+                    return;
+                }
             }
 
             AddServer(ServerNameTxt.Text, ServerIPTxt.Text, ServerPortTxt.Text, ServerPasswordTxt.Text);
@@ -251,6 +312,22 @@ namespace R5Admin
             ServerIPTxt.Text = "";
             ServerPortTxt.Text = "";
             ServerPasswordTxt.Text = "";
+        }
+
+        private void ServerIPTxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != '[') && (e.KeyChar != ']') && (e.KeyChar != ':'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void ServerPortTxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

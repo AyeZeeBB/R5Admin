@@ -125,6 +125,12 @@
     <EmbeddedResource Include="ServerSelect.resx">
       <DependentUpon>ServerSelect.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="data\Maps_Playlists.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\R5AdminServers.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="obj\Debug\Proto\SvRcon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

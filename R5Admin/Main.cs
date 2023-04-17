@@ -23,7 +23,10 @@ namespace R5Admin
             Normal,
             Success,
             Error,
-            Warn
+            Warn,
+            NativeR,
+            NativeS,
+            NativeF
         }
 
         public R5Rcon rcon = new R5Rcon();
@@ -51,7 +54,7 @@ namespace R5Admin
                 r5Console1.ConsoleBox.AppendText(sv_response.ResponseMsg, GetConsoleColor(t));
         }
 
-        public void AppendConsole(string message, ConsoleMessageType t)
+        public void UpdateConsole(string message, ConsoleMessageType t)
         {
             if (InvokeRequired)
                 r5Console1.ConsoleBox.Invoke(new MethodInvoker(() => { r5Console1.ConsoleBox.AppendText(message + "\n", GetConsoleColor(t)); }));
@@ -66,13 +69,19 @@ namespace R5Admin
             switch(t)
             {
                 case ConsoleMessageType.Normal:
-                    return Color.FromArgb(214, 214, 214);
+                    return Color.FromArgb(204, 204, 204);
                 case ConsoleMessageType.Success:
                     return Color.FromArgb(71, 246, 120);
                 case ConsoleMessageType.Error:
                     return Color.FromArgb(246, 71, 75);
                 case ConsoleMessageType.Warn:
                     return Color.FromArgb(254, 203, 107);
+                case ConsoleMessageType.NativeR:
+                    return Color.FromArgb(92, 181, 89);
+                case ConsoleMessageType.NativeS:
+                    return Color.FromArgb(59, 120, 218);
+                case ConsoleMessageType.NativeF:
+                    return Color.FromArgb(95, 209, 209);
             }
 
             return c;
@@ -91,14 +100,15 @@ namespace R5Admin
                     return;
                 }
             }
-            catch(Exception e)
+            catch
             {
                 MessageBox.Show("Couldnt Connect To Server");
                 return;
             }
 
-            TopText.Text = "R5Admin | " + name;
+            TopText.Text = $"R5Admin | Connected: {ip}:{port} | " + name;
 
+            rcon.m_bConnected = true;
             rconthread = new Thread(new ThreadStart(rcon.Runframe));
             rconthread.Start();
 
@@ -116,25 +126,71 @@ namespace R5Admin
                 rconthread.Abort();
                 r5Console1.Hide();
                 serverSelect1.Show();
+                rcon.m_bConnected = false;
                 return;
             }
 
             TopText.Text = "R5Admin | Not Connected";
 
+            rcon.m_bConnected = false;
             rconthread.Abort();
             rcon.Disconnect();
  
             r5Console1.Hide();
             serverSelect1.Show();
+
+            r5Console1.ConsoleBox.Text = "";
+        }
+
+        public void ExecCommand(string cmd)
+        {
+            string[] svSplitString = cmd.Split(' ');
+            if (svSplitString[0].ToLower() == "pass")
+            {
+                rcon.SendCommand(svSplitString[1], "", ClRcon.request_t.ServerdataRequestAuth);
+                return;
+            }
+
+            if (svSplitString[0].ToLower() == "set")
+            {
+                if (svSplitString.Length > 2)
+                {
+                    rcon.SendCommand(cmd, "", ClRcon.request_t.ServerdataRequestSetvalue);
+                    return;
+                }
+            }
+
+            if(cmd.ToLower() == "disconnect")
+            {
+                DisconnectFromServer();
+                return;
+            }
+
+            rcon.SendCommand(cmd, "", ClRcon.request_t.ServerdataRequestExeccommand);
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(rcon != null)
+            rcon.m_bConnected = false;
+
+            if (rcon != null)
                 rcon.Disconnect();
 
             if(rconthread != null)
                 rconthread.Abort();
+        }
+
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            rcon.m_bConnected = false;
+
+            if (rcon != null)
+                rcon.Disconnect();
+
+            if (rconthread != null)
+                rconthread.Abort();
+
+            Application.Exit();
         }
     }
     public static class RichTextBoxExtensions
