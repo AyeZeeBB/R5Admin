@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.ServersPanel = new Guna.UI2.WinForms.Guna2Panel();
-            this.AddNewServer = new Guna.UI2.WinForms.Guna2Button();
             this.AddServerPanel = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.ServerCancelBtn = new Guna.UI2.WinForms.Guna2Button();
@@ -38,6 +37,8 @@
             this.ServerIPTxt = new Guna.UI2.WinForms.Guna2TextBox();
             this.ServerAddBtn = new Guna.UI2.WinForms.Guna2Button();
             this.ServerNameTxt = new Guna.UI2.WinForms.Guna2TextBox();
+            this.AddServerError = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.AddNewServer = new Guna.UI2.WinForms.Guna2Button();
             this.ServersPanel.SuspendLayout();
             this.AddServerPanel.SuspendLayout();
             this.SuspendLayout();
@@ -46,39 +47,15 @@
             // 
             this.ServersPanel.AutoScroll = true;
             this.ServersPanel.Controls.Add(this.AddNewServer);
-            this.ServersPanel.Controls.Add(this.AddServerPanel);
-            this.ServersPanel.Location = new System.Drawing.Point(3, 0);
+            this.ServersPanel.Location = new System.Drawing.Point(81, 206);
             this.ServersPanel.Name = "ServersPanel";
             this.ServersPanel.ShadowDecoration.Parent = this.ServersPanel;
-            this.ServersPanel.Size = new System.Drawing.Size(837, 430);
+            this.ServersPanel.Size = new System.Drawing.Size(997, 546);
             this.ServersPanel.TabIndex = 7;
-            // 
-            // AddNewServer
-            // 
-            this.AddNewServer.Animated = true;
-            this.AddNewServer.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
-            this.AddNewServer.BorderRadius = 2;
-            this.AddNewServer.BorderThickness = 2;
-            this.AddNewServer.CheckedState.Parent = this.AddNewServer;
-            this.AddNewServer.CustomImages.Parent = this.AddNewServer;
-            this.AddNewServer.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(28)))), ((int)(((byte)(48)))));
-            this.AddNewServer.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AddNewServer.ForeColor = System.Drawing.Color.White;
-            this.AddNewServer.HoverState.Parent = this.AddNewServer;
-            this.AddNewServer.Image = global::R5Admin.Properties.Resources.icons8_add_64;
-            this.AddNewServer.ImageOffset = new System.Drawing.Point(0, -15);
-            this.AddNewServer.ImageSize = new System.Drawing.Size(40, 40);
-            this.AddNewServer.Location = new System.Drawing.Point(33, 33);
-            this.AddNewServer.Name = "AddNewServer";
-            this.AddNewServer.ShadowDecoration.Parent = this.AddNewServer;
-            this.AddNewServer.Size = new System.Drawing.Size(150, 150);
-            this.AddNewServer.TabIndex = 0;
-            this.AddNewServer.Text = "Add Server";
-            this.AddNewServer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.AddNewServer.TextOffset = new System.Drawing.Point(-30, 30);
             // 
             // AddServerPanel
             // 
+            this.AddServerPanel.Controls.Add(this.AddServerError);
             this.AddServerPanel.Controls.Add(this.guna2HtmlLabel1);
             this.AddServerPanel.Controls.Add(this.ServerCancelBtn);
             this.AddServerPanel.Controls.Add(this.ServerPasswordTxt);
@@ -86,22 +63,24 @@
             this.AddServerPanel.Controls.Add(this.ServerIPTxt);
             this.AddServerPanel.Controls.Add(this.ServerAddBtn);
             this.AddServerPanel.Controls.Add(this.ServerNameTxt);
-            this.AddServerPanel.Location = new System.Drawing.Point(0, 0);
+            this.AddServerPanel.Location = new System.Drawing.Point(529, 84);
             this.AddServerPanel.Name = "AddServerPanel";
             this.AddServerPanel.ShadowDecoration.Parent = this.AddServerPanel;
-            this.AddServerPanel.Size = new System.Drawing.Size(837, 430);
+            this.AddServerPanel.Size = new System.Drawing.Size(997, 546);
             this.AddServerPanel.TabIndex = 1;
             // 
             // guna2HtmlLabel1
             // 
+            this.guna2HtmlLabel1.AutoSize = false;
             this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel1.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guna2HtmlLabel1.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
             this.guna2HtmlLabel1.ForeColor = System.Drawing.Color.White;
-            this.guna2HtmlLabel1.Location = new System.Drawing.Point(360, 98);
+            this.guna2HtmlLabel1.Location = new System.Drawing.Point(0, 120);
             this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            this.guna2HtmlLabel1.Size = new System.Drawing.Size(117, 26);
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(997, 26);
             this.guna2HtmlLabel1.TabIndex = 9;
             this.guna2HtmlLabel1.Text = "Add Server";
+            this.guna2HtmlLabel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ServerCancelBtn
             // 
@@ -113,7 +92,7 @@
             this.ServerCancelBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.ServerCancelBtn.ForeColor = System.Drawing.Color.White;
             this.ServerCancelBtn.HoverState.Parent = this.ServerCancelBtn;
-            this.ServerCancelBtn.Location = new System.Drawing.Point(486, 273);
+            this.ServerCancelBtn.Location = new System.Drawing.Point(566, 294);
             this.ServerCancelBtn.Name = "ServerCancelBtn";
             this.ServerCancelBtn.ShadowDecoration.Parent = this.ServerCancelBtn;
             this.ServerCancelBtn.Size = new System.Drawing.Size(129, 45);
@@ -139,9 +118,9 @@
             this.ServerPasswordTxt.FocusedState.Parent = this.ServerPasswordTxt;
             this.ServerPasswordTxt.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
             this.ServerPasswordTxt.HoverState.Parent = this.ServerPasswordTxt;
-            this.ServerPasswordTxt.Location = new System.Drawing.Point(217, 231);
+            this.ServerPasswordTxt.Location = new System.Drawing.Point(297, 252);
             this.ServerPasswordTxt.Name = "ServerPasswordTxt";
-            this.ServerPasswordTxt.PasswordChar = '\0';
+            this.ServerPasswordTxt.PasswordChar = '●';
             this.ServerPasswordTxt.PlaceholderText = "Password (optional)";
             this.ServerPasswordTxt.SelectedText = "";
             this.ServerPasswordTxt.ShadowDecoration.Parent = this.ServerPasswordTxt;
@@ -166,7 +145,7 @@
             this.ServerPortTxt.FocusedState.Parent = this.ServerPortTxt;
             this.ServerPortTxt.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
             this.ServerPortTxt.HoverState.Parent = this.ServerPortTxt;
-            this.ServerPortTxt.Location = new System.Drawing.Point(486, 189);
+            this.ServerPortTxt.Location = new System.Drawing.Point(566, 210);
             this.ServerPortTxt.Name = "ServerPortTxt";
             this.ServerPortTxt.PasswordChar = '\0';
             this.ServerPortTxt.PlaceholderText = "Port (required)";
@@ -194,7 +173,7 @@
             this.ServerIPTxt.FocusedState.Parent = this.ServerIPTxt;
             this.ServerIPTxt.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
             this.ServerIPTxt.HoverState.Parent = this.ServerIPTxt;
-            this.ServerIPTxt.Location = new System.Drawing.Point(217, 189);
+            this.ServerIPTxt.Location = new System.Drawing.Point(297, 210);
             this.ServerIPTxt.Name = "ServerIPTxt";
             this.ServerIPTxt.PasswordChar = '\0';
             this.ServerIPTxt.PlaceholderText = "IP (required)";
@@ -214,7 +193,7 @@
             this.ServerAddBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.ServerAddBtn.ForeColor = System.Drawing.Color.White;
             this.ServerAddBtn.HoverState.Parent = this.ServerAddBtn;
-            this.ServerAddBtn.Location = new System.Drawing.Point(217, 273);
+            this.ServerAddBtn.Location = new System.Drawing.Point(297, 294);
             this.ServerAddBtn.Name = "ServerAddBtn";
             this.ServerAddBtn.ShadowDecoration.Parent = this.ServerAddBtn;
             this.ServerAddBtn.Size = new System.Drawing.Size(263, 45);
@@ -240,7 +219,7 @@
             this.ServerNameTxt.FocusedState.Parent = this.ServerNameTxt;
             this.ServerNameTxt.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(78)))), ((int)(((byte)(92)))), ((int)(((byte)(126)))));
             this.ServerNameTxt.HoverState.Parent = this.ServerNameTxt;
-            this.ServerNameTxt.Location = new System.Drawing.Point(217, 147);
+            this.ServerNameTxt.Location = new System.Drawing.Point(297, 168);
             this.ServerNameTxt.Name = "ServerNameTxt";
             this.ServerNameTxt.PasswordChar = '\0';
             this.ServerNameTxt.PlaceholderText = "Server Name (required)";
@@ -249,18 +228,57 @@
             this.ServerNameTxt.Size = new System.Drawing.Size(398, 36);
             this.ServerNameTxt.TabIndex = 0;
             // 
+            // AddServerError
+            // 
+            this.AddServerError.AutoSize = false;
+            this.AddServerError.BackColor = System.Drawing.Color.Transparent;
+            this.AddServerError.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.AddServerError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(71)))), ((int)(((byte)(75)))));
+            this.AddServerError.Location = new System.Drawing.Point(-3, 513);
+            this.AddServerError.Name = "AddServerError";
+            this.AddServerError.Size = new System.Drawing.Size(1000, 33);
+            this.AddServerError.TabIndex = 10;
+            this.AddServerError.Text = "Error Text";
+            this.AddServerError.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.AddServerError.Visible = false;
+            // 
+            // AddNewServer
+            // 
+            this.AddNewServer.Animated = true;
+            this.AddNewServer.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(47)))), ((int)(((byte)(65)))));
+            this.AddNewServer.BorderRadius = 2;
+            this.AddNewServer.BorderThickness = 2;
+            this.AddNewServer.CheckedState.Parent = this.AddNewServer;
+            this.AddNewServer.CustomImages.Parent = this.AddNewServer;
+            this.AddNewServer.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(28)))), ((int)(((byte)(48)))));
+            this.AddNewServer.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddNewServer.ForeColor = System.Drawing.Color.White;
+            this.AddNewServer.HoverState.Parent = this.AddNewServer;
+            this.AddNewServer.Image = global::R5Admin.Properties.Resources.icons8_add_64;
+            this.AddNewServer.ImageOffset = new System.Drawing.Point(0, -15);
+            this.AddNewServer.ImageSize = new System.Drawing.Size(40, 40);
+            this.AddNewServer.Location = new System.Drawing.Point(33, 33);
+            this.AddNewServer.Name = "AddNewServer";
+            this.AddNewServer.ShadowDecoration.Parent = this.AddNewServer;
+            this.AddNewServer.Size = new System.Drawing.Size(150, 150);
+            this.AddNewServer.TabIndex = 0;
+            this.AddNewServer.Text = "Add Server";
+            this.AddNewServer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.AddNewServer.TextOffset = new System.Drawing.Point(-30, 30);
+            // 
             // ServerSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(28)))), ((int)(((byte)(48)))));
+            this.Controls.Add(this.AddServerPanel);
             this.Controls.Add(this.ServersPanel);
             this.DoubleBuffered = true;
             this.Name = "ServerSelect";
-            this.Size = new System.Drawing.Size(840, 430);
+            this.Size = new System.Drawing.Size(1000, 546);
+            this.Load += new System.EventHandler(this.ServerSelect_Load);
             this.ServersPanel.ResumeLayout(false);
             this.AddServerPanel.ResumeLayout(false);
-            this.AddServerPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -277,5 +295,6 @@
         private Guna.UI2.WinForms.Guna2TextBox ServerIPTxt;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private Guna.UI2.WinForms.Guna2Button ServerCancelBtn;
+        private Guna.UI2.WinForms.Guna2HtmlLabel AddServerError;
     }
 }

@@ -1,0 +1,7 @@
+{
+    "Commands": [
+      "sv_cheats",
+      "pylon_showdebuginfo",
+      "developer"
+    ]
+}

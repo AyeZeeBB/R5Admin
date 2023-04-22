@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,13 +24,11 @@ namespace R5Admin
         public ServerSelect()
         {
             InitializeComponent();
-            AddServerPanel.Parent = this;
-            AddServerPanel.Hide();
         }
 
         readonly string jsonPath = Path.GetDirectoryName(Application.ExecutablePath) + "/data/R5AdminServers.json";
         public Main r5admin;
-        public Root Servers = new Root();
+        public SavedServers Servers = new SavedServers();
 
         public void FillRconList()
         {
@@ -39,7 +38,7 @@ namespace R5Admin
             {
 
                 string json = File.ReadAllText(jsonPath);
-                Root R5RconServers = JsonConvert.DeserializeObject<Root>(json);
+                SavedServers R5RconServers = JsonConvert.DeserializeObject<SavedServers>(json);
 
                 Servers = R5RconServers;
 
@@ -136,7 +135,7 @@ namespace R5Admin
                     idx++;
                     serverid++;
                     location.X += 156;
-                    if (idx > 4)
+                    if (idx > 5)
                     {
                         idx = 0;
                         location.Y += 156;
@@ -226,10 +225,9 @@ namespace R5Admin
         {
             try
             {
-                IPAddress IP;
                 if (ip.Count(c => c == '.') == 3)
                 {
-                    bool flag = IPAddress.TryParse(ip, out IP);
+                    bool flag = IPAddress.TryParse(ip, out IPAddress IP);
                     if (flag)
                     {
                         return true;
@@ -250,32 +248,47 @@ namespace R5Admin
             }
         }
 
+        private void ShowAddServerError(string message, Main.ConsoleMessageType t)
+        {
+            AddServerError.Show();
+            AddServerError.Text = message;
+            AddServerError.ForeColor = r5admin.GetConsoleColor(t);
+        }
+
         private void ServerAddBtn_Click(object sender, EventArgs e)
         {
             if(string.IsNullOrEmpty(ServerNameTxt.Text))
             {
-                MessageBox.Show("Please fill in everything");
+                ShowAddServerError("A server name is required.", Main.ConsoleMessageType.Error);
                 return;
             }
 
-            if (string.IsNullOrEmpty(ServerIPTxt.Text) || string.IsNullOrEmpty(ServerPortTxt.Text))
+            if (string.IsNullOrEmpty(ServerIPTxt.Text))
             {
-                MessageBox.Show("Please enter both a IP and PORT");
+                ShowAddServerError("A ip address is required.", Main.ConsoleMessageType.Error);
                 return;
             }
 
-            if(!IsValidIP(ServerIPTxt.Text))
+            if (string.IsNullOrEmpty(ServerPortTxt.Text))
             {
-                MessageBox.Show($"{ServerIPTxt.Text} is not a valid IP address");
+                ShowAddServerError("A port is required.", Main.ConsoleMessageType.Error);
                 return;
             }
 
+            if (!IsValidIP(ServerIPTxt.Text))
+            {
+                ShowAddServerError($"{ServerIPTxt.Text} is not a valid IP address", Main.ConsoleMessageType.Error);
+                return;
+            }
+
+            ShowAddServerError($"Testing Server Connection...", Main.ConsoleMessageType.Warn);
             try
             {
                 R5Rcon rcon = new R5Rcon();
-                bool connected = rcon.TestServerConnection(ServerIPTxt.Text, ServerPortTxt.Text);
+                bool connected = TestServerConnection(ServerIPTxt.Text, ServerPortTxt.Text);
                 if (!connected)
                 {
+                    ShowAddServerError($"Failed to connect during connection test.", Main.ConsoleMessageType.Warn);
                     DialogResult dialogResult = MessageBox.Show("Failed to connect during connection test.\n\nDo you want to add this server anyways?", "Connection Error", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.No)
                     {
@@ -285,6 +298,7 @@ namespace R5Admin
             } 
             catch
             {
+                ShowAddServerError($"Failed to connect during connection test.", Main.ConsoleMessageType.Warn);
                 DialogResult dialogResult = MessageBox.Show("Failed to connect during connection test.\n\nDo you want to add this server anyways?", "Connection Error", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.No)
                 {
@@ -301,6 +315,23 @@ namespace R5Admin
             ServerIPTxt.Text = "";
             ServerPortTxt.Text = "";
             ServerPasswordTxt.Text = "";
+            AddServerError.Visible = false;
+        }
+
+        public bool TestServerConnection(string svInAdr, string svInPort)
+        {
+            IPHostEntry hostInfo = Dns.GetHostEntry(svInAdr);
+            IPAddress serverAddr = hostInfo.AddressList[0];
+            var serverEndPoint = new IPEndPoint(serverAddr, Int32.Parse(svInPort));
+            Socket connectionTest = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.Tcp);
+
+            connectionTest.Connect(serverEndPoint);
+            if (!connectionTest.Connected)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void ServerCancelBtn_Click(object sender, EventArgs e)
@@ -328,6 +359,13 @@ namespace R5Admin
             {
                 e.Handled = true;
             }
+        }
+
+        private void ServerSelect_Load(object sender, EventArgs e)
+        {
+            AddServerPanel.Hide();
+            AddServerPanel.Location = new Point(0, 0);
+            ServersPanel.Location = new Point(0, 0);
         }
     }
 }

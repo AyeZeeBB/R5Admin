@@ -91,17 +91,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Commands.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Commands.Designer.cs">
+      <DependentUpon>Commands.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlayerList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PlayerList.Designer.cs">
+      <DependentUpon>PlayerList.cs</DependentUpon>
     </Compile>
     <Compile Include="R5Console.cs">
       <SubType>UserControl</SubType>
@@ -116,8 +122,14 @@
     <Compile Include="ServerSelect.Designer.cs">
       <DependentUpon>ServerSelect.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Commands.resx">
+      <DependentUpon>Commands.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlayerList.resx">
+      <DependentUpon>PlayerList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="R5Console.resx">
       <DependentUpon>R5Console.cs</DependentUpon>
@@ -125,6 +137,9 @@
     <EmbeddedResource Include="ServerSelect.resx">
       <DependentUpon>ServerSelect.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="data\Custom_Toggles.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="data\Maps_Playlists.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -134,9 +149,6 @@
     <None Include="obj\Debug\Proto\SvRcon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -174,6 +186,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\icons8-disconnected-48.png" />
+    <None Include="Resources\icons8-clock-48.png" />
+    <None Include="Resources\icons8-people-48.png" />
+    <None Include="Resources\icons8-terminal-48.png" />
+    <None Include="Resources\terminal-solid.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

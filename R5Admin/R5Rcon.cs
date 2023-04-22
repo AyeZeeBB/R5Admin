@@ -1,6 +1,7 @@
 ﻿using ClRcon;
 using Google.Protobuf;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,42 +13,22 @@ using System.Xml.Linq;
 
 namespace R5Admin
 {
-    public class R5Rcon 
+    public class R5Rcon
     {
-        public CConnectedNetConsoleData pData = new CConnectedNetConsoleData();
         public bool m_bConnected = false;
-
-        public void SetConsoleControl(Main form)
-        {
-            pData.m_hForm = form;
-        }
+        public Main m_hForm;
+        public Socket m_hSocket;
 
         public void Runframe()
         {
             while (m_bConnected)
             {
-                if (pData.m_hSocket != null && pData.m_hSocket.Connected)
+                if (m_hSocket != null && m_hSocket.Connected)
                 {
                     Thread.Sleep(50);
                     Recv();
                 }
             }
-        }
-
-        public bool TestServerConnection(string svInAdr, string svInPort)
-        {
-            IPHostEntry hostInfo = Dns.GetHostEntry(svInAdr);
-            IPAddress serverAddr = hostInfo.AddressList[0];
-            var serverEndPoint = new IPEndPoint(serverAddr, Int32.Parse(svInPort));
-            Socket connectionTest = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.Tcp);
-
-            connectionTest.Connect(serverEndPoint);
-            if(!connectionTest.Connected)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         public bool Connect(string svInAdr, string svInPort)
@@ -57,35 +38,35 @@ namespace R5Admin
             if (!string.IsNullOrEmpty(svInAdr) && !string.IsNullOrEmpty(svInPort))
             {
                 var svEndPoint = GetEndPoint(svInAdr, svInPort);
-                pData.m_hSocket.Connect(svEndPoint);
+                m_hSocket.Connect(svEndPoint);
             }
             else if (string.IsNullOrEmpty(svInPort))
             {
-                pData.m_hForm.UpdateConsole($"No port provided", Main.ConsoleMessageType.Error);
+                m_hForm.UpdateConsole($"No port provided", Main.ConsoleMessageType.Error);
                 return false;
             }
             else
             {
-                pData.m_hForm.UpdateConsole($"No IP address provided", Main.ConsoleMessageType.Error);
+                m_hForm.UpdateConsole($"No IP address provided", Main.ConsoleMessageType.Error);
                 return false;
             }
 
-            if (!pData.m_hSocket.Connected)
+            if (!m_hSocket.Connected)
             {
-                pData.m_hForm.UpdateConsole($"Failed to connect: verify IP and PORT", Main.ConsoleMessageType.Error);
+                m_hForm.UpdateConsole($"Failed to connect: verify IP and PORT", Main.ConsoleMessageType.Error);
                 return false;
             }
 
-            pData.m_hForm.UpdateConsole($"Connected to: {svFull}", Main.ConsoleMessageType.Success);
+            m_hForm.UpdateConsole($"Connected to: {svFull}", Main.ConsoleMessageType.Success);
             return true;
         }
 
         public void Disconnect()
         {
-            if(pData.m_hSocket != null && pData.m_hSocket.Connected)
+            if (m_hSocket != null && m_hSocket.Connected)
             {
-                pData.m_hSocket.Disconnect(false);
-                pData.m_hForm.UpdateConsole("Disconnected", Main.ConsoleMessageType.Warn);
+                m_hSocket.Disconnect(false);
+                m_hForm.UpdateConsole("Disconnected", Main.ConsoleMessageType.Warn);
             }
         }
 
@@ -105,47 +86,46 @@ namespace R5Admin
                 writer.Write(IPAddress.HostToNetworkOrder(messageBytes.Length));
                 writer.Write(messageBytes);
 
-                SocketError error;
-                int bytesSent = pData.m_hSocket.Send(stream.ToArray(), 0, (int)stream.Length, SocketFlags.None, out error);
+                int bytesSent = m_hSocket.Send(stream.ToArray(), 0, (int)stream.Length, SocketFlags.None, out SocketError error);
 
                 if (error != SocketError.Success)
-                    pData.m_hForm.UpdateConsole($"Failed to send message {error}", Main.ConsoleMessageType.Error);
+                    m_hForm.UpdateConsole($"Failed to send message {error}", Main.ConsoleMessageType.Error);
             }
         }
 
         public void Recv()
         {
-            const int szRecvBufSize = 1024;
-            byte[] szRecvBuf = new byte[szRecvBufSize];
+            byte[] szRecvBuf = new byte[1024];
+            CConnectedNetConsoleData pData = new CConnectedNetConsoleData();
 
             {
-                int nPendingLen = pData.m_hSocket.Receive(szRecvBuf, 1, SocketFlags.Peek);
-                if (nPendingLen == (int)SocketError.SocketError && pData.m_hSocket.Blocking)
+                int nPendingLen = m_hSocket.Receive(szRecvBuf, sizeof(char), SocketFlags.Peek);
+                if (nPendingLen == (int)SocketError.SocketError && m_hSocket.Blocking)
                 {
                     return;
                 }
-                if (nPendingLen <= 0 && pData.m_hSocket.Connected) // EOF or error.
+                if (nPendingLen <= 0 && m_hSocket.Connected) // EOF or error.
                 {
-                    pData.m_hSocket.Disconnect(false);
-                    pData.m_hForm.UpdateConsole($"Server closed connection", Main.ConsoleMessageType.Warn);
+                    m_hSocket.Disconnect(false);
+                    m_hForm.UpdateConsole($"Server closed connection", Main.ConsoleMessageType.Warn);
                     return;
                 }
             }
 
-            int nReadLen = pData.m_hSocket.Available;
+            int nReadLen = m_hSocket.Available;
 
             while (nReadLen > 0)
             {
-                int nRecvLen = pData.m_hSocket.Receive(szRecvBuf, Math.Min(szRecvBufSize, nReadLen), SocketFlags.None);
-                if (nRecvLen == 0 && pData.m_hSocket.Connected) // Socket was closed.
+                int nRecvLen = m_hSocket.Receive(szRecvBuf, Math.Min(szRecvBuf.Length, nReadLen), SocketFlags.None);
+                if (nRecvLen == 0 && m_hSocket.Connected) // Socket was closed.
                 {
                     Disconnect();
-                    pData.m_hForm.UpdateConsole($"Server closed connection", Main.ConsoleMessageType.Warn);
+                    m_hForm.UpdateConsole($"Server closed connection", Main.ConsoleMessageType.Warn);
                     break;
                 }
-                if (nRecvLen < 0 && !pData.m_hSocket.Blocking)
+                if (nRecvLen < 0 && !m_hSocket.Blocking)
                 {
-                    pData.m_hForm.UpdateConsole($"RCON Cmd: recv error", Main.ConsoleMessageType.Error);
+                    m_hForm.UpdateConsole($"RCON Cmd: recv error", Main.ConsoleMessageType.Error);
                     break;
                 }
 
@@ -170,7 +150,7 @@ namespace R5Admin
 
                     if (pData.m_nPayloadRead == pData.m_nPayloadLen)
                     {
-                        this.ProcessMessage(this.Deserialize(Encoding.ASCII.GetString(pData.m_RecvBuffer, 0, pData.m_nPayloadLen)));
+                        this.ProcessMessage(this.Deserialize(pData.m_RecvBuffer));
 
                         pData.m_nPayloadLen = 0;
                         pData.m_nPayloadRead = 0;
@@ -188,13 +168,13 @@ namespace R5Admin
                     pData.m_nPayloadLen = IPAddress.NetworkToHostOrder(BitConverter.ToInt32(pData.m_RecvBuffer, 0));
                     pData.m_nPayloadRead = 0;
 
-                    if (pData.m_nPayloadLen < 0 || pData.m_nPayloadLen > pData.m_RecvBuffer.Max())
-                    {
-                        pData.m_hForm.UpdateConsole($"RCON Cmd: sync error ({pData.m_nPayloadLen})", Main.ConsoleMessageType.Error);
-                        Disconnect();
-                        break;
-                    }
-                    else
+                    //if (pData.m_nPayloadLen < 0 || pData.m_nPayloadLen > pData.m_RecvBuffer.Max())
+                    //{
+                    //pData.m_hForm.UpdateConsole($"RCON Cmd: sync error ({pData.m_nPayloadLen})", Main.ConsoleMessageType.Error);
+                    //Disconnect();
+                    //break;
+                    //}
+                    //else
                     {
                         Array.Resize(ref pData.m_RecvBuffer, pData.m_nPayloadLen);
                     }
@@ -220,22 +200,37 @@ namespace R5Admin
 
                         if (sv_response.ResponseMsg.Contains("Admin password incorrect"))
                         {
-                            pData.m_hForm.UpdateConsole(sv_response, Main.ConsoleMessageType.Error);
-                            pData.m_hForm.UpdateConsole("please use 'pass <password>' to authenticate", Main.ConsoleMessageType.Warn);
+                            m_hForm.UpdateConsole(sv_response, Main.ConsoleMessageType.Error);
+                            m_hForm.UpdateConsole("please use 'pass <password>' to authenticate", Main.ConsoleMessageType.Warn);
                         }
                         else if (sv_response.ResponseMsg.Contains("This server is password protected for console access"))
                         {
-                            pData.m_hForm.UpdateConsole("This server is password protected for console access", Main.ConsoleMessageType.Warn);
-                            pData.m_hForm.UpdateConsole("please use 'pass <password>' to authenticate", Main.ConsoleMessageType.Warn);
+                            m_hForm.UpdateConsole("This server is password protected for console access", Main.ConsoleMessageType.Warn);
+                            m_hForm.UpdateConsole("please use 'pass <password>' to authenticate", Main.ConsoleMessageType.Warn);
                         }
                         else
-                            pData.m_hForm.UpdateConsole(sv_response, Main.ConsoleMessageType.Success);
+                            m_hForm.UpdateConsole(sv_response, Main.ConsoleMessageType.Success);
 
                         break;
                     }
                 case SvRcon.response_t.ServerdataResponseConsoleLog:
                     {
-                        pData.m_hForm.UpdateConsole(sv_response, GetCorrectConsoleType(sv_response.ResponseMsg));
+                        m_hForm.UpdateConsole(sv_response, GetCorrectConsoleType(sv_response.ResponseMsg));
+
+                        if (sv_response.ResponseMsg.StartsWith("# "))
+                        {
+                            for (int i = 1; i < 64; i++)
+                            {
+                                if (sv_response.ResponseMsg.StartsWith("# " + i))
+                                {
+                                    m_hForm.UpdatePlayers(sv_response.ResponseMsg);
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (sv_response.ResponseMsg.StartsWith(" ["))
+                            m_hForm.UpdatePlayerIP(sv_response.ResponseMsg);
                         break;
                     }
                 default:
@@ -272,30 +267,75 @@ namespace R5Admin
             return cl_request.ToByteArray();
         }
 
-        public SvRcon.response Deserialize(string svBuf)
+        public SvRcon.response Deserialize(byte[] svBuf)
         {
             SvRcon.response sv_response = new SvRcon.response();
+
             try
             {
-                sv_response.MergeFrom(System.Text.Encoding.ASCII.GetBytes(svBuf));
+                sv_response.MergeFrom(svBuf);
             }
-            catch
+            catch (Exception ex)
             {
-
+                m_hForm.UpdateConsole(ex.Message, Main.ConsoleMessageType.Error);
             }
             return sv_response;
         }
 
+        readonly string[] NativeR_Contains_Strings =
+        {
+            "Loading pak"
+        };
+
+        readonly string[] NativeF_Contains_Strings =
+        {
+            "Mounted vpk file"
+        };
+
+        readonly string[] NativeS_Contains_Strings = {
+            "Created SERVER VM",
+            "Published server with token",
+            "Processing connectionless challenge",
+            "Enabled persistence for client",
+            "Unable to communicate",
+            "hostname: ",
+            "version : ",
+            "udp/ip  : ",
+            "players : "
+        };
+
+        readonly string[] NativeS_StartsWith_Strings =
+        {
+            "userid name",
+            " adr",
+            "#end",
+            "# ",
+            " ["
+        };
+
         public Main.ConsoleMessageType GetCorrectConsoleType(string msg)
         {
-            if(msg.Contains("Loading pak"))
-                return Main.ConsoleMessageType.NativeR;
+            //Native(R) Strings
+            foreach (string s in NativeR_Contains_Strings)
+                if (msg.Contains(s))
+                    return Main.ConsoleMessageType.NativeR;
 
-            if (msg.Contains("Created SERVER VM") || msg.Contains("Published server with token") || msg.Contains("Processing connectionless challenge") || msg.Contains("Enabled persistence for client") || msg.Contains("Unable to communicate") || msg.Contains("hostname: ") || msg.Contains("version : ") || msg.Contains("udp/ip  : ") || msg.Contains("players : "))
-                return Main.ConsoleMessageType.NativeS;
+            //Native(S) Strings
+            foreach (string s in NativeS_Contains_Strings)
+                if(msg.Contains(s))
+                    return Main.ConsoleMessageType.NativeS;
 
-            if (msg.Contains("Mounted vpk file"))
-                return Main.ConsoleMessageType.NativeF;
+            foreach (string s in NativeS_StartsWith_Strings)
+                if (msg.StartsWith(s))
+                    return Main.ConsoleMessageType.NativeS;
+
+            //Native(F) Strings
+            foreach (string s in NativeF_Contains_Strings)
+                if (msg.Contains(s))
+                    return Main.ConsoleMessageType.NativeF;
+
+            if (string.IsNullOrEmpty(msg) || msg.StartsWith("\n"))
+                return Main.ConsoleMessageType.None;
 
             return Main.ConsoleMessageType.Normal;
         }
@@ -305,22 +345,15 @@ namespace R5Admin
             IPHostEntry hostInfo = Dns.GetHostEntry(svInAdr);
             IPAddress serverAddr = hostInfo.AddressList[0];
             var serverEndPoint = new IPEndPoint(serverAddr, Int32.Parse(svInPort));
-            pData.m_hSocket = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.Tcp);
+            m_hSocket = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.Tcp);
             return serverEndPoint;
         }
     }
 
     public class CConnectedNetConsoleData
     {
-        public Socket m_hSocket;
-        public Main m_hForm;
         public int m_nPayloadLen = 0;   // Num bytes for this message.
         public int m_nPayloadRead = 0;  // Num read bytes from input buffer.
-        public int m_nFailedAttempts = 0; // Num failed authentication attempts.
-        public int m_nIgnoredMessage = 0; // Count how many times client ignored the no-auth message.
-        public bool m_bValidated = false;      // Revalidates netconsole if false.
-        public bool m_bAuthorized = false;     // Set to true after successful netconsole auth.
-        public bool m_bInputOnly = false;      // If set, don't send spew to this net console.
-        public byte[] m_RecvBuffer = new byte[1024];
+        public byte[] m_RecvBuffer = new byte[sizeof(UInt32)]; // Reserve enough for length-prefix.
     }
 }

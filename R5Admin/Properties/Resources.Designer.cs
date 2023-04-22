@@ -73,9 +73,49 @@ namespace R5Admin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_clock_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-clock-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_disconnected_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-disconnected-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_empty_trash_64 {
             get {
                 object obj = ResourceManager.GetObject("icons8-empty-trash-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_people_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-people-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_terminal_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-terminal-48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
