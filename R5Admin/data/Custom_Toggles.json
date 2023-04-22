@@ -1,7 +1,8 @@
 {
-    "Commands": [
-      "sv_cheats",
-      "pylon_showdebuginfo",
-      "developer"
-    ]
+  "_comment": "Only add commands that can be set to 0 or 1",
+  "Commands": [
+    "sv_cheats",
+    "pylon_showdebuginfo",
+    "developer"
+  ]
 }
